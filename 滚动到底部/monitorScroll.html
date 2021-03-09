@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .content {
+      margin: 0;
+      width: 300px;
+      height: 500px;
+      background: #ccc;
+      overflow: auto;
+    }
+    .box{
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>margin会影响高度判断，盒子中的margin注意清空</h2>
+  <div class="content">
+    <ul class="box">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
+      <li>11</li>
+      <li>12</li>
+      <li>13</li>
+      <li>14</li>
+      <li>15</li>
+      <li>16</li>
+      <li>17</li>
+      <li>18</li>
+      <li>19</li>
+      <li>20</li>
+      <li>21</li>
+      <li>22</li>
+      <li>23</li>
+      <li>24</li>
+      <li>25</li>
+      <li>26</li>
+      <li>27</li>
+      <li>28</li>
+      <li>29</li>
+      <li>30</li>
+      <li>31</li>
+      <li>32</li>
+      <li>33</li>
+      <li>34</li>
+      <li>35</li>
+      <li>36</li>
+      <li>37</li>
+      <li>38</li>
+      <li>39</li>
+      <li>40</li>
+      <li>41</li>
+      <li>42</li>
+      <li>43</li>
+      <li>44</li>
+      <li>45</li>
+      <li>46</li>
+      <li>47</li>
+      <li>48</li>
+      <li>49</li>
+      <li>50</li>
+    </ul>
+  </div>
+
+
+
+  <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+  <script>
+    $('.content').scroll(function () {
+      var scroH = $('.content').scrollTop();  //滚动高度
+      var viewH = $('.content').height();  //可见高度
+      var contentH = $('.content ul').height();  //内容高度
+
+      // console.log(scroH,viewH,contentH);
+
+
+      if (contentH - (scroH + viewH) <= 100 ) {  //距离底部高度小于100px
+        console.log('距离底部高度小于100px');
+      }
+
+      if (contentH === (scroH + viewH)) {  //滚动条滑到底部啦
+        console.log('滚动条滑到底部啦');
+      }
+    })
+
+
+  </script>
+</body>
+
+</html>

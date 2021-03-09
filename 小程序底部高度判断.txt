@@ -1,0 +1,23 @@
+
+Page({
+  data: {
+    isIphone:false,
+  },
+  onLoad: function () {
+    this.setData({
+      "isIphone": this.isIphone()
+    })
+  },
+  isIphone() {
+    let info = wx.getSystemInfoSync();
+    if (/iPhone/i.test(info.model)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+})
+
+
+
+<view style="width:1px;height:{{isIphone?20:0}}rpx"></view>

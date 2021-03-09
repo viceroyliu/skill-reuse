@@ -1,0 +1,4 @@
+图片尺寸缩小         ?x-oss-process=image/resize,p_15
+图片禁止旋转         ?x-oss-process=image/auto-orient,1
+
+多个属性拼接中间加  ,    如  ?x-oss-process=image/resize,p_15,image/auto-orient,1

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div>
+    <span>用户名</span>
+    <input type="text" id="username">
+    <button onclick="login()">登录聊天室</button>
+  </div>
+
+  <div>
+    <span>给</span>
+    <input type="text" id="to_user">
+    <span>发送：</span>
+    <input type="text" id="msg">
+    <button onclick="sendMsg()">发送</button>
+  </div>
+
+<!-- 接收消息 -->
+<div id="content" style="width: 500px;height: 500px;"></div>
+
+</body>
+<script type="application/javascript">
+  var ws = null;
+
+  function login() {
+    var username = document.getElementById("username").value;
+    ws = new WebSocket("ws://192.168.0.44:9527/ws/"+username);
+    ws.onmessage = function (data) {
+      console.log(data.data);
+      var recv_msg = JSON.parse(data.data);
+      var ptag = document.createElement("p");
+      ptag.innerText= recv_msg.from_user + ":" + recv_msg.msg;
+      document.getElementById("content").appendChild(ptag);
+    }
+  }
+
+  function sendMsg() {
+    var to_user = document.getElementById("to_user").value;
+    var msg = document.getElementById("msg").value;
+    var send_str = {
+      "to_user" :to_user,
+      "msg":msg
+    };
+    ws.send(JSON.stringify(send_str));
+  }
+</script>
+</html>

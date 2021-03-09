@@ -1,0 +1,29 @@
+//jq中图片404判断
+<img src="${data.HeadImageUrl}" onerror="imgError(this)" >
+
+    function imgError(image) {
+      $(image).attr('src', './images/noimg.jpg')
+    }
+
+
+//vue 图片404 处理
+<img style="margin-left: 40px;width: 130px;height: 130px;" :src="url" @error="nofindImg()"/>
+
+nofindImg(){
+      let img = event.srcElement;
+      img.src = "../../../static/404.png";
+      img.onerror = null; //防止一直跳动
+}
+
+
+
+//小程序404判断
+
+<image slot="img" class="broker-img" mode="aspectFill" src="{{avatar}}" binderror="onImageError"></image>
+
+  // 远程图片加载404显示默认图
+ onImageError: function () {
+    this.setData({
+      avatar: 'https://xinfafangdichan888.oss-cn-beijing.aliyuncs.com/AppWeb/img_xinfa_head.jpg'
+    })
+  },

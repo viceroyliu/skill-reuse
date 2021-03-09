@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  我是测试文件
+  <div id='content'></div>
+
+  <script src="./jweixin-1.4.0.js"></script>
+  <script>
+    function getUrlParam(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg); //匹配目标参数
+      if (r != null) return unescape(r[2]);
+      return null; //返回参数值
+    }
+    var code = getUrlParam('code');
+    var HousingResourcesID = getUrlParam('HousingResourcesID');
+    var EmployeeId = getUrlParam('EmployeeId');
+
+    if (code != null) {
+      GetOpenid()
+    } else {
+      wx()
+    }
+
+    function GetOpenid() {
+      if (sessionStorage.getItem('Openid') != null) {
+        return;
+      }
+      $.ajax({
+        type: 'GET',
+        url: 'https://data.nicexf.com/WxSmallProgram/XFGroupWhereCode/',
+        data: {
+          CODE: code
+        },
+        success: function (res) {
+          if (res.ReturnCode == -1) {
+            window.location.href = window.location.pathname + '?EmployeeId=' + EmployeeId +
+              '&HousingResourcesID=' + HousingResourcesID
+            return;
+          }
+          var Openid = res.Openid
+          sessionStorage.setItem('Openid', Openid)
+
+        }
+      })
+    }
+
+
+    function wx() {
+      if (sessionStorage.getItem('Openid') != null) {
+        return;
+      }
+
+      var Url = window.location.href
+      var wxUrl = encodeURIComponent(Url);
+      var appid = "wxe86c63f7ff9a83bb";
+      var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + wxUrl +
+        "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+      location.href = url;
+    }
+  </script>
+</body>
+
+</html>
+
+
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=
+wxe86c63f7ff9a83bb
+&redirect_uri=
+http%3A%2F%2Fmobile.nicexf.com%2FHouseDetail%2FHouseInfo.html%3FEmployeeId%3Dafc4bfb6-4fbc-46ef-b5ee-305caf1c0dfe%26HousingResourcesID%3D232918f0-dc76-49c9-8d57-00325f1a272c
+&response_type=code
+&scope=snsapi_userinfo
+&state=STATE
+&uin=MjI2MDAxNTAyNw%3D%3D
+&key=068939d7911099840e211076e63ba6d2869b968d51a19017975553be7e519480805ae859eba4909dbebc4c0d8be3d4a1&pass_ticket=AlQqztQduVKFGq9CJrz5ZJtjZXUAdwPKdF1T1zYMnMwy1Wg6B7anQq226bIqXJGJHhumWbvWO4j4WcriuJVJMQ==

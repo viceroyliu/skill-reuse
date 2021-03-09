@@ -1,0 +1,9 @@
+        //获取昨天的日期
+        function getDay(lastDay) {
+            var timestamp = new Date().getTime() - 86400000*lastDay;
+            var currentTime = new Date(timestamp).toLocaleDateString().replace(/\//g, '.');
+            return currentTime
+        }
+
+      getDay(0)      //0代表今天   1代表昨天   2前天  以此类推
+	
