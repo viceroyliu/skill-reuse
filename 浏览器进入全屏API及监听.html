@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <button onclick="toggleFullScreen(event)">点我全屏</button>
+
+  <script>
+    function FullScreen(el) {
+      var isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+      if (!isFullscreen) { //进入全屏,多重短路表达式
+        (el.requestFullscreen && el.requestFullscreen() + el.addEventListener('fullscreenchange', fullscreenCallback)) ||
+          (el.mozRequestFullScreen && el.mozRequestFullScreen() + el.addEventListener('mozfullscreenchange', fullscreenCallback)) ||
+          (el.webkitRequestFullscreen && el.webkitRequestFullscreen()) + el.addEventListener('webkitfullscreenchange', fullscreenCallback) ||
+          (el.msRequestFullscreen && el.msRequestFullscreen() + (document.onmsfullscreenchange = fullscreenCallback));
+      } else { //退出全屏,三目运算符
+        document.exitFullscreen ? document.exitFullscreen() :
+          document.mozCancelFullScreen ? document.mozCancelFullScreen() :
+            document.webkitExitFullscreen ? document.webkitExitFullscreen() :
+              document.msExitFullscreen ? document.msExitFullscreen() : '';
+      }
+    }
+
+    function toggleFullScreen(e) {
+      var el = document.documentElement
+      FullScreen(el);
+    }
+
+    function fullscreenCallback(params) {
+      console.log(params.type);
+      //离开时全屏 参数为null，进入后才能通过 fullscreenElement 获得到html根元素
+      //所以我们根据获取参数的特性来判断它进入还是离开全屏
+      //如果浏览器不支持此参数则返回undefind
+      //现在谷歌+火狐+safari等内核浏览器都支持fullscreenElement，所以只需要判断IE浏览器的API即可
+      let fullIE = document.msFullscreenElement;
+      let otherBrowser = document.fullscreenElement;
+      if ((otherBrowser === null) || (fullIE === null)) {
+        console.log('离开全屏');
+      } else {
+        console.log('进入全屏');
+      }
+    }
+
+
+
+
+  </script>
+</body>
+
+</html>
