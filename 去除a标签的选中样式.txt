@@ -1,0 +1,54 @@
+取消a标签在移动端点击时的蓝色：
+
+-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+-webkit-user-select: none;
+
+-moz-user-focus: none;
+
+-moz-user-select: none;
+
+使用图片作为a标签的点击按钮时，当触发touchstart的时候，往往会有一个灰色的背景：
+
+a,a:hover,a:active,a:visited,a:link,a:focus{
+
+-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+-webkit-tap-highlight-color: transparent;
+
+outline:none;
+
+background: none;
+
+text-decoration: none;
+
+}
+改变选中内容的背景颜色：
+
+::selection {
+
+background: #FFF;
+
+color: #333;
+
+}
+
+::-moz-selection {
+
+background: #FFF;
+
+color: #333;
+
+}
+
+::-webkit-selection {
+
+background: #FFF;
+
+color: #333;
+
+}
+
+去除ios input框点击时的灰色背景：
+
+-webkit-tap-highlight-color:rgba(0,0,0,0);

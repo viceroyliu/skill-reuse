@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> 正在打开链接 </title>
+  <style>
+    div#map{
+      width: 100%;
+      height: 400px;
+      position: relative;
+      clear: both;
+      font-size: 590rem;
+    }
+    div#map .mapbox{
+      height: 100%;
+
+    }
+    div#map .mapbox #allmap {
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      margin:0;
+    }
+
+    div#map .mapbox .btn{
+      width: 100%;
+      height: 22%;
+      display: flex;
+      justify-content:space-around;
+      margin-top: 4%;
+
+    }
+    div#map .mapbox .btn li{
+      width: 12.5%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    div#map .mapbox .btn li img{
+      height: 65%;
+      width: 100%;
+    }
+    div#map .mapbox .btn li p{
+      font-size: 0.7em;
+      margin-top: 0.1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+    <div id="map">
+      <div class="mapbox">
+        <div class="baidumap" id="allmap"></div>
+      </div>
+    </div>
+
+    <ul class="btn" id="btn"></ul>
+</body>
+<script src="./Common/js/jquery-3.4.0.min.js"></script>
+<script src="./Common/js/rem.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Pql3Si349EykZE8mVmiAvLD6vdiKsEia"></script>
+
+<script>
+  $(document).ready(function () {
+
+    var textIcon = [
+      {
+        name: '交通',
+        img: 'images/traffic.png'
+      },
+      {
+        name: '教育',
+        img: 'images/education.png'
+      },
+      {
+        name: '购物',
+        img: 'images/shop.png'
+      },
+      {
+        name: '医院',
+        img: 'images/hospital.png'
+      },
+      {
+        name: '美食',
+        img: 'images/food.png'
+      },
+      {
+        name: '银行',
+        img: 'images/bank.png'
+      }
+    ];
+    var mapIcon = [
+      './images/mapicon/交通.png',
+      './images/mapicon/教育.png',
+      './images/mapicon/购物.png',
+      './images/mapicon/医院.png',
+      './images/mapicon/美食.png',
+      './images/mapicon/银行.png',
+    ];
+    var currentPosition = './images/mapicon/定位.png';
+
+
+
+
+    shuju();
+    // 数据渲染部分
+    function shuju() {
+      var middleIconStr = '';
+      for (var index = 0; index < textIcon.length; index++){
+        middleIconStr +=
+            `<li class="icon-box">
+              <img class="img" src="${textIcon[index].img}">
+              <p>${textIcon[index].name}</p>
+            </li>`
+      }
+      $('#btn').html(middleIconStr);
+
+      // ------------- content end
+      var Coordinate = ["125.424468", "43.894857"];//坐标分解
+
+      // 百度地图API功能
+      var map = new BMap.Map("allmap");
+      var point = new BMap.Point(Coordinate[0], Coordinate[1]);
+      map.centerAndZoom(point, 14);
+      var myIcon = new BMap.Icon(currentPosition, new BMap.Size(40, 46));//创建Icon对象
+      var marker = new BMap.Marker(point, {icon: myIcon});//创建标注  // 创建标注
+      map.addOverlay(marker);           // 将标注添加到地图中
+
+
+
+
+      var btnEle = document.getElementsByClassName('btn')[0].children;
+      //地图下方图标的点击事件
+      for(var i=0;i<btnEle.length;i++){
+        btnEle[i].index = i;
+        btnEle[i].onclick= function () {
+          var currentText = textIcon[this.index].name;
+          var currentIcon = mapIcon[this.index];
+          //开始展示地图
+          showDynamicMap("allmap",Coordinate,currentText,currentIcon);
+        }
+      }
+
+
+    }
+  });
+
+
+
+  function showDynamicMap(mapID,Coordinate,iconText,iconImg) {
+    //mapID 容器的ID 例如 var mapID = 'myMap';
+    //Coordinate当前坐标 例如 var Coordinate = [125,43];
+    //iconText 下方图标的文字 例 var iconText = '交通';
+    //iconImg 图标地址 var iconImg = './img/photo.jpg';
+    console.log(mapID,Coordinate,iconText,iconImg);
+
+    // 百度地图API功能
+    var map = new BMap.Map(mapID);            // 创建Map实例
+    var mPoint = new BMap.Point(Coordinate[0], Coordinate[1]);
+    map.enableScrollWheelZoom();
+    map.centerAndZoom(mPoint, 14);
+
+
+    var circle = new BMap.Circle(mPoint, 1000, {
+      fillColor: "",
+      strokeWeight: 0.1,
+      fillOpacity: 0.1,
+      strokeOpacity: 0.1
+    });
+    var local = new BMap.LocalSearch(map, {
+      renderOptions: {panel: map},
+      onSearchComplete: function (array) {
+        var markerArray = array.Ir;
+        markerArr(markerArray)
+      }
+    });
+    local.searchNearby(iconText, mPoint, 1000);
+
+    function markerArr(markerArray) {
+      for (var i = 0; i < markerArray.length; i++) {
+        var lng = markerArray[i].point.lng;
+        var lat = markerArray[i].point.lat;
+        var title = markerArray[i].title;
+        var Point = new BMap.Point(lng, lat);
+        var myIcon = new BMap.Icon(iconImg, new BMap.Size(40, 46));//创建Icon对象
+        var marker = new BMap.Marker(Point, {icon: myIcon});//创建标注
+        map.addOverlay(marker);
+        var html = "<div style='background:#5DA9C0;display:block;font-size:0.4em'>" + title + "</div>";
+        var infoWindow = new BMap.InfoWindow(html);
+        marker.infoWindow = infoWindow;
+        marker.addEventListener("click", function (e) {//添加标注的点击事件回调
+          this.openInfoWindow(e.target.infoWindow);//点击标注时，打开改标注对应的回调信息
+        });
+      }
+    }
+  }
+
+</script>
+</html>

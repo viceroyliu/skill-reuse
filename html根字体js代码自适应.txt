@@ -1,0 +1,13 @@
+//注意代码需要放在head中
+function setRootFontSize() {
+  var width = document.documentElement.clientWidth || document.body.clientWidth;
+  if (width > 540) {
+    width = 540;
+  }
+  fontSize = (width / 10);
+  document.getElementsByTagName('html')[0].style['font-size'] = fontSize + 'px';
+}
+setRootFontSize();
+window.addEventListener('resize', function () {
+  setRootFontSize();
+}, false);
