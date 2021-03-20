@@ -1,3 +1,0 @@
-Underscore 是一个 JavaScript 工具库        https://underscorejs.bootcss.com/
-jQuery HTML5音频/视频库 	               http://jplayer.org/
-Rxjs 响应式编程库			https://cn.rx.js.org/

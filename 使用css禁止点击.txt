@@ -1,3 +1,0 @@
-.disableClick{	/* 禁止点击*/
-    pointer-events: none;
-}
