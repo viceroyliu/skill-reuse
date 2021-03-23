@@ -11,3 +11,12 @@ git push -u origin main
 git remote add origin https://github.com/wsrfde/a.git
 git branch -M main
 git push -u origin main
+
+
+
+现有分支
+
+git init  
+git remote add origin https://github.com/wsrfde/a.git
+git pull     自动关联分支
+git checkout test    没有本地分支会自动创建，并且关联上远程test分支
