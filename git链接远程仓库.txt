@@ -1,5 +1,4 @@
-在命令行上创建新的存储库
-
+推送现有文件夹
 git init
 git add README.md
 git commit -m "first commit"
@@ -7,16 +6,25 @@ git branch -M main
 git remote add origin https://github.com/wsrfde/a.git
 git push -u origin main
 
-从命令行推送现有存储库
+推送现有的 Git 仓库
+git remote rename origin old-origin
 git remote add origin https://github.com/wsrfde/a.git
+# 把当前分支设置为main,并且推送到远程main分支
 git branch -M main
 git push -u origin main
+# 或者，推送当前所有的分支到远程。推送当前所有的tag到远程
+git push -u origin --all
+git push -u origin --tags
 
 
+框架中版本更新办法
+1. 更改远程origin为company-origin
+2. 添加框架中远程origin，并更名为frame-origin
+3. 使用命令git fetch frame-origin 命令进行拉去最新分支
+4. 检出seed分支到本地
+5. 切换到自己的develop-vicer分支
+6. 使用命令git cherry-pick seed 到当前分支  #cherry-pick 为择优挑选的意思
+7. 合并冲突，提交代码即可
 
-现有分支
-
-git init  
-git remote add origin https://github.com/wsrfde/a.git
-git pull     自动关联分支
-git checkout test    没有本地分支会自动创建，并且关联上远程test分支
+注意：框架中版本更新后如更新了package.json，
+则需要重新cnpm i （不需要删除node_modules）
