@@ -18,11 +18,15 @@ git push -u origin --tags
 
 
 框架中版本更新办法
-1. 更改远程origin为company-origin
-2. 添加框架中远程origin，并更名为frame-origin
+1. 更改远程origin为company-origin	
+    #  git remote rename origin company-origin
+2. 添加框架中远程origin，并更名为frame-origin	
+    #  git remote add origin https://github.com/vue-admin-beautiful/admin-pro.git
+    #  git remote rename origin frame-origin
 3. 使用命令git fetch frame-origin 命令进行拉去最新分支
+    #  git fetch frame-origin
 4. 检出seed分支到本地
-5. 切换到自己的develop-vicer分支
+5. 切换到自己的dev-viceroy分支
 6. 使用命令git cherry-pick seed 到当前分支  #cherry-pick 为择优挑选的意思
 7. 合并冲突，提交代码即可
 
