@@ -21,7 +21,7 @@ git push -u origin --tags
 1. 更改远程origin为company-origin	
     #  git remote rename origin company-origin
 2. 添加框架中远程origin，并更名为frame-origin	
-    #  git remote add origin https://github.com/vue-admin-beautiful/admin-pro.git
+    #  git remote add origin https://github.com.cnpmjs.org/vue-admin-beautiful/admin-pro.git
     #  git remote rename origin frame-origin
 3. 使用命令git fetch frame-origin 命令进行拉去最新分支
     #  git fetch frame-origin
