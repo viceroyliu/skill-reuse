@@ -10,7 +10,7 @@
 
 `git submodule add <url> <path>`        url为子模块的路径，path为该子模块存储的目录路径
 
-示例：`git submodule add git@192.168.110.44/submodules.git src/sub-module  `
+示例：`git submodule add git@192.168.110.44/submodules.git src/sub-module`
 
 执行成功后，便会在当前项目的src目录下，引入目录名为submodule的子模块
 
@@ -24,7 +24,20 @@
 
 #### 子模块的使用及更新
 
-克隆项目后，父级项目不会在更新和提交时不会更新子模块，所有需要cd进子模块中进行pull和push操作
+克隆项目后，父级项目不会在更新和提交时不会更新子模块，**所有如果需要提交父模块，要先cd进子模块中进行pull和push操作，然后再提交父模块**
+
+### 父模块中更新子模块
+
+克隆项目后，默认子模块目录下无任何内容。需要在项目根目录执行如下命令完成子模块的下载：
+
+`git submodule init`
+`git submodule update`
+
+或者组合命令
+
+`git submodule update --init --recursive`
+
+执行后，子模块目录下就有了源码，再执行相应的makefile即可。
 
 ### 删除子模块
 
