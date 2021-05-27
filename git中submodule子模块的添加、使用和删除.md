@@ -28,7 +28,7 @@
 
 ### 父模块中更新子模块
 
-克隆项目后，默认子模块目录下无任何内容。需要在项目根目录执行如下命令完成子模块的下载：
+如果你是第一次克隆项目，默认子模块目录下无任何内容。需要在项目根目录执行如下命令完成子模块的下载：
 
 `git submodule init`
 `git submodule update`
@@ -37,7 +37,84 @@
 
 `git submodule update --init --recursive`
 
-执行后，子模块目录下就有了源码，再执行相应的makefile即可。
+执行后，子模块目录下就有了源码
+
+### 绑定子模块默认分支
+
+> 当父模块分支更新后，子模块默认会被切到HEAD去，这不是我们想要的，还要手动cd进子模块，再切换分支
+
+#### 未正确跟踪原因一
+
+> 子模块未跟踪任何或正确的分支
+
+```
+$ cd <submodule-path>
+$ git branch -u <origin>/<branch> <branch>
+# else:
+$ git checkout -b <branch> --track <origin>/<branch>
+```
+
+#### 未正确跟踪原因二
+
+> 子模块没有设置默认分支
+
+我们可以为子模块设置默认分支，这样每次pull父模块时子模块也一直保持在我们想要的分支
+
+**方法一：在没有添加子模块时设置默认分支**
+
+```
+$ git submodule add -b <branch> <repository> [<submodule-path>]
+$ git submodule update --remote
+```
+
+**方法二：在已添加子模块时绑定默认分支**
+
+首先，您要确保您的子模块已检出要跟踪的分支。
+
+```
+$ cd <submodule-path>
+$ git checkout <branch>
+$ cd <parent-path>
+$ git config -f .gitmodules submodule.<submodule-path>.branch <branch>
+```
+
+最后一步代码如何编写？
+
+举个栗子：`git config -f .gitmodules submodule.src/sub-module.branch master`
+
+执行这个命令后会更新父仓库的 `.gitmodules`
+
+```
+[submodule "src/sub-module"]
+	path = src/sub-module
+	url = git@192.168.110.11:vicer/submodules.git
+	branch = master   # 新增的代码
+```
+
+然后执行 `git submodule update --remote`
+
+这样每次更新子模块都会切到master分支
+
+**最后：别忘记在父模块中提交子模块的更改！**
+
+#### 最后一个方法
+
+假设所有子模块都在master上。
+
+从父模块执行它，为每个子模块切换master分支
+
+```
+#!/bin/bash
+echo "更新子模块，并切换到master分支."
+
+git submodule update 
+git submodule foreach git checkout master 
+git submodule foreach git pull origin master 
+```
+
+
+
+参考文章：[为什么我的GIT子模块HEAD与master分离](https://www.itranslater.com/qa/details/2325703063316726784)
 
 ### 删除子模块
 
@@ -55,4 +132,31 @@
 `git rm --cached 子模块名称`
 
 完成删除后，提交到仓库即可。
+
+### 踩坑：子模块换行符与父模块不同
+
+关于换行符问题，在采用子模块后，由于项目中用了es-lint，导致提交时两个项目的代码pull下来总会提示换行符不一致，而vue刚创建的项目是LF（这里删除重新create），子模块为CRLF，项目领导的电脑又为mac（我们的系统都是win10），所以干脆就统一一下，所有的换行符都为LF
+
+>  git为了保持风格统一，提供了一个“换行符自动转换”功能。这个功能默认处于“自动模式”，当你在签出文件时，它试图将 UNIX 换行符（LF）替换为 Windows 的换行符（CRLF）；当你在提交文件时，它又试图将 CRLF 替换为 LF。
+
+但遗憾的是，这个功能是有 bug 的，而且在短期内都不太可能会修正。
+
+所以进行如下设置：
+
+```
+#提交时转换为LF，检出时不转换  (这样就保证了所有pull下来的项目都是LF)
+git config --global core.autocrlf input
+
+# IDE设置
+webstorm：
+File -> Settings
+Editor -> Code Style
+Line separator (for new lines) ，选择：Unix and OS X (\n)
+```
+
+
+
+参阅文章：[git 换行符LF与CRLF转换问题](https://www.cnblogs.com/sdgf/p/6237847.html)
+
+参阅文章2：[在 Git 中正确设置 CRLF、LF 换行符转换](https://p3terx.com/archives/how-to-choose-crlf-lf.html)
 
