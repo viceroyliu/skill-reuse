@@ -18,6 +18,7 @@ git push -u origin --tags
 
 
 框架中版本更新办法
+
 1. 更改远程origin为company-origin	
     #  git remote rename origin company-origin
 2. 添加框架中远程origin，并更名为frame-origin	
@@ -26,9 +27,12 @@ git push -u origin --tags
 3. 使用命令git fetch frame-origin 命令进行拉去最新分支
     #  git fetch frame-origin
 4. 检出seed分支到本地，并命名为frame-seed
-5. 切换到自己的dev-viceroy分支
-6. 使用命令git cherry-pick frame-seed到当前分支  #cherry-pick 为择优挑选的意思
+5. 切换到自己的dev分支
+6. 使用命令cherry-pick到当前分支  （cherry-pick 为择优挑选的意思）
+    #  git cherry-pick frame-seed
 7. 合并冲突，提交代码即可
 
-注意：框架中版本更新后如更新了package.json，
+注意：
+1. 更新框架需要停止运行，防止进行自动修复导致错误
+2. 框架中版本更新后如更新了package.json，
 则需要重新cnpm i （不需要删除node_modules）
