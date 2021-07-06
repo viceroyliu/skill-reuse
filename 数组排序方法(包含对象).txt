@@ -1,0 +1,8 @@
+var points = [
+  {name:'a',age:40},
+  {name:'b',age:100},
+  {name:'c',age:1}
+];
+
+// 根据年龄大小来进行排序
+points.sort(function(a, b){return a.age - b.age}); 

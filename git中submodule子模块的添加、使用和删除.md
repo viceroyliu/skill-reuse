@@ -10,7 +10,7 @@
 
 `git submodule add <url> <path>`        url为子模块的路径，path为该子模块存储的目录路径
 
-示例：`git submodule add git@192.168.110.44/submodules.git src/sub-module`
+示例：`git submodule add git@192.168.110.44:submodules.git src/sub-module`
 
 执行成功后，便会在当前项目的src目录下，引入目录名为submodule的子模块
 
