@@ -1,0 +1,19 @@
+function urlParams2Obj(href) {
+        var obj = {};
+        var splitHrefArr = href.split('?');
+        var tmpStr = '';
+        var tmpStrSplitArr = [];
+        if (splitHrefArr.length > 1) {
+          tmpStr = splitHrefArr[1];
+        }
+        tmpStrSplitArr = tmpStr.split('&');
+        for (var i = 0; i < tmpStrSplitArr.length; i++) {
+          var item = tmpStrSplitArr[i].split('=');
+          obj[item[0]] = item[1];
+        }
+        return obj;
+}
+
+let urlObj = urlParams2Obj('www.xx.com?name=vicer&age=18')
+
+// urlObj => {name:'vicer',age:18}
