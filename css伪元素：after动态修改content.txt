@@ -1,0 +1,15 @@
+// CSS代码
+.red::before {
+content: attr(data-attr);
+color: red;
+}
+// HTML代码
+<div class="red" data-attr="哈哈哈">内容内容内容内容</div>
+// JacaScript代码
+$('.red').attr('data-attr', '呵呵呵');
+
+
+注意：这个方法只能更改伪元素的content。如果更改样式，建议给伪元素局部样式，并设置新的class
+
+    let progressBarStr = `<style>.normal .progress-bar::after{width:${footerWidthNum}px}</style>`;
+    $('.normal .progress-bar').append(progressBarStr);
