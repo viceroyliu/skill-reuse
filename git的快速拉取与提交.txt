@@ -8,7 +8,19 @@
 安装好插件后，再次打开git仓库，便会发现旁边有一个【加速】图标
 然后把git的远程 url 换成 第一个加速通道。
 
-此时发现git下载速度确实提升了，但是有个问题，这个加速通道无法推送代码？
+此时发现git下载速度确实提升了，但是经过尝试后发现一个问题，这个加速通道无法推送代码？
 
+经自己尝试后，可以使用如下方式进行推送。（官网的SSH配置无效，也有可能是我没有配置正确？）
 
+首先打开Github，在setting中依次打开【Developer settings】> 【Personal access tokens】
+新创建一个token。
+权限选择 【repo】一行全部打开。
+日期自己选择，即可生成token
 
+然后把自己本地git仓库的远程加速url，前面加上生成的token，格式如下。
+
+[http://] + [token] + [@] + [git加速通道]
+
+https://ghpiux3t90V9OvgHejJbKIz6Oss@github.com.cnpmjs.org/wsrfde/my-code.git
+
+即可实现拉取和推送git加速
