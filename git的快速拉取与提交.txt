@@ -23,4 +23,4 @@
 
 https://ghpiux3t90V9OvgHejJbKIz6Oss@github.com.cnpmjs.org/wsrfde/my-code.git
 
-即可实现拉取和推送git加速
+即可实现拉取和推送git加速通道⏩
