@@ -1,0 +1,18 @@
+通过 :export 导出scss并导入到css直接改变无效， 只能动态赋值给:style才能更新dom，但有时候我们要改变组件，无法直接接触到dom元素，这种方法就行不通了
+
+在不改变组件的情况下,我们可以利用css3的变量名规则，来进行动态改变css
+
+```scss
+$number: var(--number);
+
+.el-step {
+  flex-basis: $basis-number !important;
+}
+```
+
+```js
+stepList(val) {
+      let newVal = `100%`
+      document.getElementsByTagName('body')[0].style.setProperty('--number', newVal);
+}
+```
