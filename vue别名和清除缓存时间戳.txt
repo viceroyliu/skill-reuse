@@ -11,9 +11,6 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-//增加时间戳
-let Version = new Date().getTime();
-
 module.exports = {
   publicPath: './',
   chainWebpack: (config) => {
@@ -30,11 +27,11 @@ module.exports = {
       .rule("images")
       .use("url-loader")
       .tap(options => {
-        options.name = `img/[name].${Version}.[ext]`;
+        options.name = `img/[name]_[hash:8].[ext]`;
         options.fallback = {
           loader: "file-loader",
           options: {
-            name: `img/[name].${Version}.[ext]`
+            name: `img/[name]_[hash:8].[ext]`
           }
         };
         return options;
@@ -43,14 +40,14 @@ module.exports = {
   configureWebpack: {
     output: {
       // 输出重构  打包编译后的js文件名称  【模块名称.版本号】
-      filename: `js/[name].${Version}.js`,
-      chunkFilename: `js/[name].${Version}.js`
+      filename: `js/[name]_[hash:8].js`,
+      chunkFilename: `js/[name]_[hash:8].js`
     },
     plugins: [
-      new MiniCssExtractPlugin({
+      new MiniCssExtractPlugin({	// mini-css-extract-plugin1.6对应的webpack4，更高版本需要升级webpack5,在package.json中把^换成~即可限制升级
         // 输出打包后css文件名
-        filename: `css/[name].${Version}.css`,
-        chunkFilename: `css/[name].${Version}.css`
+        filename: `css/[name]_[hash:8].css`,
+        chunkFilename: `css/[name]_[hash:8].css`
       })
     ]
   },
