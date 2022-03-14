@@ -1,0 +1,17 @@
+一、Mac使用brew作为包管理工具：
+
+苹果电脑 常规安装脚本（推荐 完全体 几分钟安装完成）：
+/bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
+
+
+二、raw.githubusercontent.com无法链接：
+
+命令行：
+vim /etc/hosts
+G
+o
+在hosts中添加以下内容并保存:
+199.232.28.133  raw.githubusercontent.com
+
+按Esc,输入  :qw  进行保存并退出
+
