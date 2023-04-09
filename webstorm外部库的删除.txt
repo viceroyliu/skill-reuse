@@ -1,0 +1,9 @@
+
+
+
+IDEA将一些常用库的键入内容下载到其配置文件夹，并使用它来增强代码完成。
+注册表可通过以下网址找到：帮助〉查找操作〉键入Registry...
+请尝试禁用typescript.external.type.definitions注册表项
+或从typescript.external.type.definitions.packages键值中删除react-router-dom，
+
+然后从<IDEA system folder>\javascript\typings文件夹中删除自动下载的键入内容。
